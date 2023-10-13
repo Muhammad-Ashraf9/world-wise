@@ -1,3 +1,4 @@
+import Button from "../../components/Button/Button";
 import PageNav from "../../components/PageNav/PageNav";
 import styles from "./Homepage.module.css";
 
@@ -17,6 +18,7 @@ export default function Homepage() {
           of. Never forget your wonderful experiences, and show your friends how
           you have wandered the world.
         </h2>
+        <Button className="primary">Start tracking now</Button>
       </section>
     </main>
   );
