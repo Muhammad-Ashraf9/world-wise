@@ -1,16 +1,12 @@
-import { NavigateFunction, useNavigate } from "react-router-dom";
 import styles from "./Button.module.css";
 interface ButtonProps {
-  className: string;
+  type: string;
   children: string;
+  onClick?: () => void;
 }
-export default function Button({ className, children }: ButtonProps) {
-  const navigate: NavigateFunction = useNavigate();
+export default function Button({ type, children, onClick }: ButtonProps) {
   return (
-    <button
-      onClick={() => navigate("/login")}
-      className={[styles.btn, styles[className]].join(" ")}
-    >
+    <button onClick={onClick} className={`${styles.btn} ${styles[type]}`}>
       {children}
     </button>
   );

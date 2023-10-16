@@ -1,22 +1,14 @@
-import { Link } from "react-router-dom";
-import Styles from "./AppNav.module.css";
-import Logo from "../Logo/Logo";
+import { NavLink } from "react-router-dom";
+import styles from "./AppNav.module.css";
 export default function AppNav() {
   return (
-    <nav className={Styles.nav}>
-      <Logo />
+    <nav className={styles.nav}>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <NavLink to="cities">Cities</NavLink>
         </li>
         <li>
-          <Link to="/login">login</Link>
-        </li>
-        <li>
-          <Link to="/pricing">pricing</Link>
-        </li>
-        <li>
-          <Link to="/product">product</Link>
+          <NavLink to="countries">Countries</NavLink>
         </li>
       </ul>
     </nav>

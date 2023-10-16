@@ -2,11 +2,12 @@ import { useState } from "react";
 import styles from "./Login.module.css";
 import Button from "../../components/Button/Button";
 import PageNav from "../../components/PageNav/PageNav";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty");
-
+  const navigate = useNavigate();
   return (
     <main className={styles.login}>
       <PageNav />
@@ -32,7 +33,9 @@ export default function Login() {
         </div>
 
         <div>
-          <Button className="primary">Login</Button>
+          <Button type="primary" onClick={() => navigate("/app")}>
+            Login
+          </Button>
         </div>
       </form>
     </main>
