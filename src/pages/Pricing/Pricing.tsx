@@ -3,8 +3,6 @@ import PageNav from "../../components/PageNav/PageNav";
 import styles from "../Product/Product.module.css";
 
 export default function Product() {
-  console.log("st :>> ", styles);
-
   return (
     <main className={styles.product}>
       <PageNav />

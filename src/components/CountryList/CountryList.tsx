@@ -5,12 +5,10 @@ import Message from "../Message/Message";
 import CountryItem from "../CountryItem/CountryItem";
 import City from "../../types/City";
 import Country from "../../types/Country";
-interface CityListProps {
-  cityList: CityType[];
-  isLoading: boolean;
-}
+import useCities from "../../hooks/useCities";
 
-export default function CountryList({ cityList, isLoading }: CityListProps) {
+export default function CountryList() {
+  const { cityList, isLoading } = useCities();
   if (isLoading) return <Spinner />;
   if (!cityList.length) return <Message message="No cities found." />;
   const countries: Country[] = cityList.reduce((arr: Country[], city: City) => {
@@ -21,10 +19,10 @@ export default function CountryList({ cityList, isLoading }: CityListProps) {
     }
   }, []);
   return (
-    <div className={styles.cityList}>
+    <ul className={styles.countryList}>
       {countries.map((country) => (
         <CountryItem country={country} key={Math.random()} />
       ))}
-    </div>
+    </ul>
   );
 }
