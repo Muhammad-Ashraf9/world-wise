@@ -82,7 +82,7 @@ export default function Map() {
 }
 function ChangeCenter({ position: [lat, lng] }: { position: number[] }) {
   const map = useMap();
-  map.setView(latLng({ lat, lng }), 8);
+  map.setView(latLng({ lat, lng }));
   return null;
 }
 function DetectClick() {
