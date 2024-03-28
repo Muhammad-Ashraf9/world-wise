@@ -14,29 +14,9 @@ import useCities from "../../hooks/useCities";
 import City from "../../types/City";
 import { useGeolocation } from "../../hooks/useGeolocation";
 import Button from "../Button/Button";
-// interface LocationMarkerProps {
-//   city: City;
-// }
-// function LocationMarker({ city }: LocationMarkerProps) {
-//   const [position, setPosition] = useState<LatLng | null>(null);
-//   const map = useMapEvents({
-//     click() {
-//       map.locate();
-//     },
-//     locationfound(e) {
-//       setPosition(e.latlng);
-//       map.flyTo(e.latlng, map.getZoom());
-//     },
-//   });
-
-//   return position === null ? null : (
-//     <Marker position={position ? position : city.position}>
-//       <Popup>
-//         {city.country} {city.cityName}
-//       </Popup>
-//     </Marker>
-//   );
-// }
+interface LocationMarkerProps {
+  city: City;
+}
 
 export default function Map() {
   const [searchParams] = useSearchParams();
@@ -95,6 +75,7 @@ export default function Map() {
           ))}
         <ChangeCenter position={mapPosition} />
         <DetectClick />
+        <LocationMarker />
       </MapContainer>
     </div>
   );
@@ -113,4 +94,20 @@ function DetectClick() {
     },
   });
   return null;
+}
+function LocationMarker() {
+  const [position, setPosition] = useState<LatLng | null>(null);
+  useMapEvents({
+    click(e) {
+      setPosition(e.latlng);
+    },
+  });
+  if (!position) return;
+  return (
+    <Marker position={position}>
+      <Popup>
+        You are here. <br /> <Button type="primary">Add to my cities</Button>
+      </Popup>
+    </Marker>
+  );
 }
