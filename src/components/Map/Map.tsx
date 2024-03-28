@@ -14,33 +14,34 @@ import useCities from "../../hooks/useCities";
 import City from "../../types/City";
 import { useGeolocation } from "../../hooks/useGeolocation";
 import Button from "../Button/Button";
-interface LocationMarkerProps {
-  city: City;
-}
-function LocationMarker({ city }: LocationMarkerProps) {
-  const [position, setPosition] = useState<LatLng | null>(null);
-  const map = useMapEvents({
-    click() {
-      map.locate();
-    },
-    locationfound(e) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-    },
-  });
+// interface LocationMarkerProps {
+//   city: City;
+// }
+// function LocationMarker({ city }: LocationMarkerProps) {
+//   const [position, setPosition] = useState<LatLng | null>(null);
+//   const map = useMapEvents({
+//     click() {
+//       map.locate();
+//     },
+//     locationfound(e) {
+//       setPosition(e.latlng);
+//       map.flyTo(e.latlng, map.getZoom());
+//     },
+//   });
 
-  return position === null ? null : (
-    <Marker position={position ? position : city.position}>
-      <Popup>
-        {city.country} {city.cityName}
-      </Popup>
-    </Marker>
-  );
-}
+//   return position === null ? null : (
+//     <Marker position={position ? position : city.position}>
+//       <Popup>
+//         {city.country} {city.cityName}
+//       </Popup>
+//     </Marker>
+//   );
+// }
 
 export default function Map() {
   const [searchParams] = useSearchParams();
   const { cityList, isLoading: isLoadingCities } = useCities();
+
   const {
     getPosition: getGeolocationPosition,
     isLoading: isLoadingGeolocationLocation,
@@ -50,19 +51,23 @@ export default function Map() {
 
   const lat = Number(searchParams.get("lat"));
   const lng = Number(searchParams.get("lng"));
+
+  console.log("cityList :>> ", cityList);
+  console.log("mapPosition :>> ", mapPosition);
   useEffect(
     function () {
+      console.log("geolocationPosition :>> ", geolocationPosition);
       if (geolocationPosition) setMapPosition(geolocationPosition);
     },
     [geolocationPosition]
   );
   useEffect(
     function () {
+      console.log("lat,lng :>> ", lat, lng);
       if (lat && lng) setMapPosition([lat, lng]);
     },
     [lat, lng]
   );
-  //const postionLatLng = latLng(38.727881642324164, -9.0215);
   return (
     <div className={styles.mapContainer}>
       {!geolocationPosition && (
@@ -80,17 +85,16 @@ export default function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        {cityList.map((city) => (
-          <Marker position={city.position} key={city.id}>
-            <Popup>
-              {city.country} {city.cityName}
-            </Popup>
-          </Marker>
-        ))}
+        {!isLoadingCities &&
+          cityList.map((city) => (
+            <Marker position={city.position} key={city.id}>
+              <Popup>
+                {city.country} {city.cityName}
+              </Popup>
+            </Marker>
+          ))}
         <ChangeCenter position={mapPosition} />
         <DetectClick />
-        {!isLoadingCities &&
-          cityList.map((city) => <LocationMarker city={city} key={city.id} />)}
       </MapContainer>
     </div>
   );
